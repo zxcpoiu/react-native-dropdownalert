@@ -437,6 +437,9 @@ export default class DropdownAlert extends Component {
       return <Label style={StyleSheet.flatten(this.props.messageStyle)} numberOfLines={this.props.messageNumOfLines} text={this.state.message} />;
     }
   }
+  onPress() {
+    if (this.props.onPress) this.props.onPress();
+  }
   render() {
     const { isOpen, type } = this.state;
     if (isOpen) {
@@ -479,7 +482,7 @@ export default class DropdownAlert extends Component {
         <Animated.View ref={ref => this.mainView = ref} {...this._panResponder.panHandlers} style={[wrapperStyle, this.props.wrapperStyle]}>
           <TouchableOpacity
             activeOpacity={!this.props.tapToCloseEnabled || showCancel ? 1 : 0.95}
-            onPress={!this.props.tapToCloseEnabled ? null : () => this.close('tap')}
+            onPress={!this.props.tapToCloseEnabled ? this.onPress() : () => { this.close('tap'); this.onPress(); }}
             disabled={!this.props.tapToCloseEnabled}
             onLayout={event => this.onLayoutEvent(event)}
             testID={this.props.testID}
